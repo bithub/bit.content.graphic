@@ -3,42 +3,45 @@ from zope.interface import Interface as I
 
 class ICustomGraphic(I):
 
-    def getImage():
+    def get_image():
         pass
 
-    def setImage():
+    def set_image():
         pass
 
 
 class IGraphical(I):
 
-    def getGraphic(graphic):
+    def get_graphic(graphic):
         pass
 
-    def setGraphic(graphic, path):
+    def set_graphic(graphic, path):
         pass
 
-    def graphicKeys():
+    def graphic_ids():
         pass
 
-    def graphicList():
+    def graphic_list():
         pass
 
-    def clearGraphics():
+    def clear_graphics():
         pass
 
-    def getRawGraphic(graphic, path):
+    def get_raw_graphic(graphic, path):
+        pass
+
+    def get_raw_list():
         pass
 
 
 class IGraphicallyCustomized(I):
-    pass
+    """ marker interface for objects that store a custom graphic """
 
 
 class IIconic(I):
     """Allow the getIcon to be adapted
     """
 
-    def getIcon():
+    def get_icon():
         """ return a custom icon
         """
