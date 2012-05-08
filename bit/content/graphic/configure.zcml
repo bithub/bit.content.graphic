@@ -1,0 +1,18 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+	   i18n_domain="bit.content.graphic"
+	   >
+
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
+           provides="bit.content.graphic.interfaces.ICustomGraphic"
+           factory=".graphics.CustomGraphic"
+	   />
+
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
+           provides="bit.content.graphic.interfaces.IGraphical"
+           factory=".graphics.Graphical"
+           />
+
+</configure>
