@@ -13,6 +13,7 @@ from bit.content.graphic.interfaces import\
 class CustomGraphic(object):
     implements(ICustomGraphic)
 
+    _annotation = 'bit.content.graphic.CustomGraphic'
     _sizes = {'large': (768, 768),
               'preview': (400, 400),
               'mini': (200, 200),
@@ -31,7 +32,7 @@ class CustomGraphic(object):
             del IAnnotations(self.context)[self._annotation]
         if image and not IGraphicallyCustomized.providedBy(self.context):
             alsoProvides(self.context, IGraphicallyCustomized)
-         if image:
+        if image:
             IAnnotations(
                 self.context)[self._annotation] = {}
             IAnnotations(
@@ -44,7 +45,7 @@ class CustomGraphic(object):
         if not imagedict:
             return
         image = imagedict.get(name or 'original')
-        if not image and name in self._sizes.keys():
+        if not image and name in self._sizes:
             image = self._resize(imagedict.get('original'), name)
             imagedict[name] = image
         return image
@@ -74,7 +75,7 @@ class Graphical(object):
     _annotation = 'bit.content.graphic.Graphical'
 
     def __init__(self, context):
-        self. context = context
+        self.context = context
 
     def get_raw_graphic(self, graphicid, acquire=False, expand=True):
         graphics = IAnnotations(
@@ -82,7 +83,7 @@ class Graphical(object):
         graphic = None
         if graphics:
             graphic = graphics.get(graphicid) or None
-            if not graphic and 'base' in graphics.keys()\
+            if not graphic and 'base' in graphics\
                     and expand and graphicid in self._default_sizes:
                 if graphicid != 'original':
                     graphic = '%s_%s' % (graphics.get('base'), graphicid)
@@ -98,11 +99,11 @@ class Graphical(object):
             self._annotation)
         keys = set()
         if graphics:
-            if 'base' in graphics.keys() and expand:
+            if 'base' in graphics and expand:
                 [keys.add(k) for k in self._default_sizes]
-                [keys.add(k) for k in graphics.keys() if k != 'base']
+                [keys.add(k) for k in graphics if k != 'base']
             else:
-                [keys.add(k) for k in graphics.keys()]
+                [keys.add(k) for k in graphics]
         return list(keys)
 
     def get_graphics(self):
@@ -130,7 +131,7 @@ class Graphical(object):
     def set_graphic(self, graphic, path=None):
         anno = IAnnotations(self.context)
         if not anno.get(self._annotation):
-            anno[self._annotation] = PersistentDict()
+            anno[self._annotation] = {}
         if path is not None:
             anno[self._annotation][graphic] = path
         else:
